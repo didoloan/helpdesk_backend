@@ -1,6 +1,7 @@
 import { Router } from 'express';
+import userCtrl from './userCtrl';
 
-router = new Router();
+const router = new Router();
 
 router.route('/login').post(userCtrl.login);
 

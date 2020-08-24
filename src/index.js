@@ -15,8 +15,8 @@ MongoClient.connect(process.env.HELPDESK_NS, {
 .then(async client => {
     await UserDB.injectDB(client);
     await RequestDB.injectDB(client);
-    app.listen(6000, () => {
-        console.log('Server listening on port 6000.')
+    app.listen(5660, () => {
+        console.log(`Server listening on port 5660 at ${new Date()}.`);
     });
 })
 
