@@ -11,8 +11,8 @@ export default class userCtrl{
         let passwordIsSame = await Coder.compare(req.body.password, exists.password);
         // console.log(passwordIsSame);
         if(passwordIsSame) {
-            let token = await Coder.jwtEncode({id:exists.id, name: exists.name, role: exists.role});
-            res.json({auth_token: token, user: {name: exists.name, role:exists.role}});
+            let token = await Coder.jwtEncode({id:exists._id, name: exists.name, email: exists.email, role: exists.role});
+            res.json({auth_token: token, user: {name: exists.name, email: exists.email, role:exists.role}});
             return;
         }
         res.json({error: "Auth failed!"});

@@ -1,4 +1,4 @@
-import { ObjectID } from 'mongodb';
+import { ObjectID, ObjectId } from 'mongodb';
 import { response, request } from 'express';
 
 let requests;
@@ -18,7 +18,7 @@ export default class Requests {
         let response;
         try {
             response = await requests.insertOne({...request});
-            return {message: response};
+            return response;
         } catch (e) {
             return {error: e};
         }
@@ -28,7 +28,7 @@ export default class Requests {
         let response;
         try {
             response = await updates.insertOne({...update});
-            return {message: response};
+            return response;
         } catch (e) {
             return {error:e};
         }
@@ -37,8 +37,8 @@ export default class Requests {
     static async close(id) {
         let response;
         try {
-            response = await requests.updateOne({_id: ObjectID(id)}, {status:{$set:'closed'}});
-            return {message: response};
+            response = await requests.updateOne({_id: id}, {status:{$set:'closed'}});
+            return response;
         } catch (e) {
             return {error: e};
         }
@@ -47,8 +47,8 @@ export default class Requests {
     static async getWithHistory(id) {
         let response;
         try {
-            response = requests.aggregate([{$match:{_id: ObjectID(id)}}, {$lookup: {from: 'updates', localField: 'request_id', foreignField: '_id', as:'history'}}]);
-            return response;
+            response = await requests.aggregate([{$match:{_id: ObjectId(id)}}, {$lookup: {from: 'updates', localField: 'request_id', foreignField: '_id', as:'history'}}]);
+            return response.toArray();
         } catch (e) {
             return {error:e};
         }

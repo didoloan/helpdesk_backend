@@ -71,10 +71,6 @@ export default class Auth {
         }
         let userFromToken = await Coder.jwtDecode(token);
         let user = await UserDbOps.findOne(userFromToken.email);
-        if(user.error){
-            res.json({error:'Not Authorized!'});
-            return;
-        }
         if(user.email != userFromToken.email) {
             res.json({error: "Not Authorized!"});
             return;
