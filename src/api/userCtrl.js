@@ -1,6 +1,7 @@
 import Coder from './coder';
 import UserDbOps from '../db/users';
 
+
 export default class userCtrl{
     static async login(req, res) {
         let exists = await UserDbOps.findOne(req.body.email);
@@ -12,7 +13,7 @@ export default class userCtrl{
         // console.log(passwordIsSame);
         if(passwordIsSame) {
             let token = await Coder.jwtEncode({id:exists._id, name: exists.name, email: exists.email, role: exists.role});
-            res.json({auth_token: token, user: {name: exists.name, email: exists.email, role:exists.role}});
+            res.json({auth_token: token, user: {name: exists.name, email: exists.email, role:exists.role, dept:exists.dept}});
             return;
         }
         res.json({error: "Auth failed!"});

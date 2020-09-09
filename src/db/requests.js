@@ -54,4 +54,14 @@ export default class Requests {
         }
     }
 
+    static async getupdates(id) {
+        let response;
+        try {
+            response = await updates.find({request_id:id});
+            return response.toArray();
+        } catch (e) {
+            return {error:e}
+        }
+    }
+
 }
